@@ -18,7 +18,7 @@
     max-height: 700px;
     box-shadow: rgba(0, 0, 0, 0.25);
     width: 93%;
-    height: 29rem;
+    height: 27rem;
     margin-left: 4rem;
     box-shadow: 0 10px 20px rgb(26, 26, 26);
     border-radius: 1rem;
@@ -111,4 +111,34 @@ th:hover::after {
 img{
     height: 3rem;
    
+}
+.main-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    gap: 5px;
+    
+}
+.pagination a {
+    color: #000 !important;
+    text-decoration: none;
+}
+.pagination .page-num {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 400;
+}
+.pagination .page-num:hover {
+    background-color: red;
+    color: #f2f2f2;
 }

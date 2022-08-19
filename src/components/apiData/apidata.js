@@ -1,6 +1,7 @@
 import React, {useEffect,useState} from 'react'
 import './apidata.css'
 import Logo from '../apiData/logo.png'
+import ReactPaginate from 'react-paginate';
 const Apidata = () => {
 const [data, setdata] = useState([]);
 const [filterVal,setFilterVal] = useState('');
@@ -29,7 +30,27 @@ const handleFilter =(e)=>{
 }
     setFilterVal(e.target.value)
 }
+const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 9
+  
 
+  useEffect(() => {
+    // Fetch items from another resources.
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    setCurrentItems(data.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(data.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, data]);
+
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % data.length;
+  
+    setItemOffset(newOffset);
+  };
   return (
     <>
 
@@ -38,9 +59,10 @@ const handleFilter =(e)=>{
     </div>
    
         <div className='container-fluid mt-5'>
+            <h1 className='mb-5 text-center'><img src={Logo} alt="logo" /> <br />Assessment</h1>
             <div className='main-heading'>
                 
-                 <h1 className='mb-5 text-center'><img src={Logo} alt="logo" /> <br />Assessment</h1>
+                 
                  <input className="Search-btn" placeholder='Search' value={filterVal} onInput={(e) =>handleFilter(e)}/>
             </div>
              <div className='table-responsive'>
@@ -55,7 +77,7 @@ const handleFilter =(e)=>{
                     </thead>
                     <tbody>
                         {
-                            data.map((curElem, ind) => {
+                            currentItems.map((curElem, ind) => {
                                 return(
                                      <tr key={ind}>
                             <td>{curElem.product_id}</td>
@@ -70,6 +92,24 @@ const handleFilter =(e)=>{
                     </tbody>
                     </table>
                  </div>
+                 <div>
+                    <ReactPaginate
+        breakLabel="..."
+        nextLabel="Next "
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={10}
+        pageCount={pageCount}
+        previousLabel=" Previous"
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        pageLinkClassName='page-num'
+        previousClassName='page-num'
+        nextLinkClassName='page-num'
+        
+
+      />
+                 </div>
+               
         </div>
 
     </>
